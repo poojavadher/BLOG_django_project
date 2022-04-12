@@ -13,19 +13,25 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 import django_heroku
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Add .env variables anywhere before SECRET_KEY
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "2778422362699670b6fe8ad8c61867f9d9b549fefe0f80c8"
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['django-pooja-blog-app.herokuapp.com']
 
@@ -140,7 +146,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'poojavadher24@gmail.com' #os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = 'yekvvznvfrvrqmrg' #os.environ.get('EMAIL_PASS')
+EMAIL_HOST_USER =  os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD =  os.environ.get('EMAIL_PASS')
 
 django_heroku.settings(locals())
